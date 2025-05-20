@@ -1,0 +1,271 @@
+You are a scientific QA evaluator. Your goal is to assess whether the given QA pair demonstrates scientific insightfulness based on three core criteria: Reasoning, Interpretation, and Synthesis.
+
+Definitions:
+1. Reasoning: Does the QA pair require reasoning, comparison, or inference beyond simple retrieval?
+2. Interpretation: Does it involve interpreting the scientific meaning or implications of the data?
+3. Synthesis: Does it involve integrating multiple values to infer a pattern, generalization, or higher-level conclusion?
+
+Instructions:
+- Review the table (caption and content), the question, and its explanation.
+- For each of the three criteria, answer Yes or No.
+- If at least 1 of the 3 criteria is satisfied (i.e., any one of Reasoning, Interpretation, or Synthesis), classify the QA as "Insightful".
+- In all cases, include a **Justification** field that explains your reasoning for each judgment. This justification must include **reasoning steps in a chain-of-thought format**, briefly summarizing why each criterion was (or was not) satisfied.
+
+---
+
+## Few-Shot Examples
+
+Caption: "Table 1: Evaluation of trained models on all test sets. Gap and WinoBias (abbreviated WB) are additionally split into subsets, as introduced in Section 5. Double lines in the table separate results from three different scenarios: when no training data is available, when additional training data exists, and the transductive scenario. The table is further split into sections separated with single horizontal lines. Each section contains a model that has been trained on WikiCREM and models that have not been. The best result in each section is in bold. The best overall result is underlined. Scores on Gap are measured as F1-scores, while the performance on other datasets is given in accuracy. The source of each SOTA is listed in Section 5."
+Headers: [
+            "[EMPTY]",
+            "Transductive scenario Gap  [ITALIC] F1",
+            "Transductive scenario Gap  [ITALIC] FF1",
+            "Transductive scenario Gap  [ITALIC] FM1",
+            "Transductive scenario Bias  [ITALIC] FF1 [ITALIC] FM1",
+            "Dpr",
+            "Wsc",
+            "Wnli",
+            "[EMPTY]"
+        ]
+Contents: [
+            [
+                "SOTA",
+                "72.1%",
+                "71.4%",
+                "72.8%",
+                "0.98",
+                "76.4%",
+                "[BOLD] 72.5%–––––––",
+                "[BOLD] 74.7%–––––––",
+                "[EMPTY]"
+            ],
+            [
+                "Bert",
+                "50.0%",
+                "47.2%",
+                "52.7%",
+                "0.90",
+                "59.8%",
+                "61.9%",
+                "65.8%",
+                "no train data"
+            ],
+            [
+                "Bert_WikiRand",
+                "55.1%",
+                "51.8%",
+                "58.2%",
+                "0.89",
+                "59.2%",
+                "59.3%",
+                "65.8%",
+                "no train data"
+            ],
+            [
+                "Bert_WikiCREM",
+                "[BOLD] 59.0%",
+                "[BOLD] 57.5%",
+                "[BOLD] 60.5%",
+                "[BOLD] 0.95",
+                "[BOLD] 67.4%",
+                "[BOLD] 63.4%",
+                "[BOLD] 67.1%",
+                "no train data"
+            ],
+            [
+                "Bert_Gap",
+                "75.2%",
+                "75.1%",
+                "75.3%",
+                "[BOLD] 1.00–––––",
+                "66.8%",
+                "63.0%",
+                "68.5%",
+                "existing train data"
+            ],
+            [
+                "Bert_WikiCREM_Gap",
+                "[BOLD] 77.4%",
+                "[BOLD] 78.4%",
+                "[BOLD] 76.4%",
+                "1.03",
+                "[BOLD] 71.1%",
+                "[BOLD] 64.1%",
+                "[BOLD] 70.5%",
+                "existing train data"
+            ],
+            [
+                "Bert_Dpr",
+                "60.9%",
+                "61.3%",
+                "60.6%",
+                "1.01",
+                "[BOLD] 83.3%",
+                "67.0%",
+                "71.9%",
+                "existing train data"
+            ],
+            [
+                "Bert_Gap_Dpr",
+                "[BOLD] 70.0%",
+                "[BOLD] 70.4%",
+                "[BOLD] 69.5%",
+                "1.01",
+                "79.4%",
+                "65.6%",
+                "72.6%",
+                "existing train data"
+            ],
+            [
+                "Bert_WikiCREM_Dpr",
+                "64.2%",
+                "64.2%",
+                "64.1%",
+                "[BOLD] 1.00–––––",
+                "80.0%",
+                "[BOLD] 71.8%",
+                "[BOLD] 74.7%–––––––",
+                "existing train data"
+            ],
+            [
+                "Bert_all",
+                "76.0%",
+                "77.4%",
+                "74.7%",
+                "[BOLD] 1.04",
+                "80.1%",
+                "[BOLD] 70.0%",
+                "74.0%",
+                "existing train data"
+            ],
+            [
+                "Bert_WikiCREM_all",
+                "[BOLD] 78.0%–––––––",
+                "[BOLD] 79.4%–––––––",
+                "[BOLD] 76.7%–––––––",
+                "[BOLD] 1.04",
+                "[BOLD] 84.8%–––––––",
+                "[BOLD] 70.0%",
+                "[BOLD] 74.7%–––––––",
+                "existing train data"
+            ]
+        ] 
+Description: "The results of the evaluation of the models on the test sets are shown in Table 1. We notice that additional training on WIKICREM consistently improves the performance of the models in all scenarios and on most tests. Due to the small size of some test sets, some of the results are subject to deviation. This especially applies to PDP (60 test samples) and WNLI (145 test samples). We observe that BERT WIKIRAND generally performs worse than BERT, with GAP and PDP being notable exceptions. This shows that BERT is a strong baseline and that improved performance of BERT WIKICREM is not a consequence of training on shorter sentences or with different loss function. BERT WIKICREM consistently outperforms both baselines on all tests, showing that WIKICREM can be used as a standalone dataset. We observe that training on the data from the target distribution improves the performance the most. Models trained on GAP-train usually show more than a 20% increase in their F1-score on GAP-test. Still, BERT WIKICREM GAP shows [CONTINUE] a consistent improvement over BERT GAP on all subsets of the GAP test set. This confirms that WIKICREM works not just as a standalone dataset, but also as an additional pre-training in the transductive scenario. Similarly, BERT WIKICREM DPR outpertasks, forms BERT DPR on the majority of showing the applicability of WIKICREM to the scenario where additional training data is available. However, good results of BERT GAP DPR show that additional training on a manually constructed dataset, such as GAP, can yield similar results as additional training on WIKICREM. The reason behind this difference is the impact of the data distribution. GAP, DPR, and WIKICREM contain data that follows different distributions which strongly impacts the trained models. This [CONTINUE] can be seen when we fine-tune BERT GAP on DPR to obtain BERT GAP DPR, as the model's performance on GAP-test drops by 8.2%. WIKICREM's data distribution strongly differs from the test sets' as described in Section 3. the achieves However, the best results are achieved when all available data is combined, as shown by the models BERT ALL and BERT WIKICREM ALL. BERT WIKICREM ALL highest performance on GAP, DPR, WNLI, and WINOBIAS among the models, and sets the new state-of-the-art result on GAP, DPR, and WINOBIAS. result on the WINOGENDER dataset is achieved by the BERT WIKICREM DPR model, while BERT WIKICREM ALL and BERT GAP DPR set the new state-of-the-art on the PDP dataset. The new state-of-the-art"
+
+---
+
+Example 1:
+Question: Between Bert_WikiCREM and Bert_WikiRand, which model achieves a higher score on the Wsc test set?
+Explanation: This is a direct comparison between two specific cells in the Wsc column for Bert_WikiCREM and Bert_WikiRand. Bert_WikiCREM Wsc: 63.4%, Bert_WikiRand Wsc: 59.3%. 63.4% > 59.3%.
+{
+  "Justification": "The question retrieves and compares two values from a single column without requiring any reasoning or generalization. It does not involve interpretation or synthesis.",
+  "Reasoning": "No",
+  "Interpretation": "No",
+  "Synthesis": "No",
+  "Insightful": "No"
+}
+
+Example 2:
+Question: Among all models evaluated with no train data, which achieves the highest accuracy on the Wnli test set?
+Explanation: This filters models with 'no train data' and compares their Wnli accuracy. Bert_WikiCREM outperforms others with 67.1%.
+{
+  "Justification": "The question requires conditional filtering based on a metadata attribute before comparison, which introduces an element of reasoning. No interpretation or integration is required.",
+  "Reasoning": "Yes",
+  "Interpretation": "No",
+  "Synthesis": "No",
+  "Insightful": "Yes"
+}
+
+Example 3:
+Question: What is the absolute difference in Dpr accuracy between Bert_Dpr and Bert_Gap_Dpr?
+Explanation: Bert_Dpr Dpr: 83.3%, Bert_Gap_Dpr Dpr: 79.4%. |83.3 - 79.4| = 3.9%.
+{
+  "Justification": "Although simple, the question involves an arithmetic difference calculation, which goes beyond mere retrieval and qualifies as reasoning.",
+  "Reasoning": "Yes",
+  "Interpretation": "No",
+  "Synthesis": "No",
+  "Insightful": "Yes"
+}
+
+Example 4:
+Question: By what percentage does Bert_WikiCREM_all improve over Bert_all on the Gap FF1 metric?
+Explanation: Bert_all: 77.4%, Bert_WikiCREM_all: 79.4%. ((79.4 - 77.4)/77.4) × 100 ≈ 2.58%.
+{
+  "Justification": "This question involves a ratio computation and also interprets the meaning of improvement in model performance, satisfying both reasoning and interpretation.",
+  "Reasoning": "Yes",
+  "Interpretation": "Yes",
+  "Synthesis": "No",
+  "Insightful": "Yes"
+}
+
+Example 5:
+Question: For Bert_WikiCREM_all, what is the largest absolute change among its scores for Gap, Dpr, and Wnli?
+Explanation: Gap: 78.0%, Dpr: 84.8%, Wnli: 74.7%. Largest change is between Dpr and Wnli: 10.1%.
+{
+  "Justification": "The question integrates multiple values within a single model row to calculate a derived maximum change, requiring both reasoning and synthesis.",
+  "Reasoning": "Yes",
+  "Interpretation": "No",
+  "Synthesis": "Yes",
+  "Insightful": "Yes"
+}
+
+Example 6:
+Question: Comparing Bert_Gap and Bert_WikiCREM_Gap, which model shows a greater increase from Gap FF1 to Gap FM1?
+Explanation: Bert_Gap: 75.1% → 75.3% (+0.2%); Bert_WikiCREM_Gap: 78.4% → 76.4% (−2.0%). Greater increase: Bert_Gap.
+{
+  "Justification": "The question compares intra-model metric shifts, requiring the calculation of deltas and interpreting them in terms of directional change, satisfying reasoning and interpretation.",
+  "Reasoning": "Yes",
+  "Interpretation": "Yes",
+  "Synthesis": "No",
+  "Insightful": "Yes"
+}
+
+Example 7:
+Question: What is the average Gap FF1 score for Bert, Bert_WikiRand, and Bert_WikiCREM?
+Explanation: (47.2 + 51.8 + 57.5)/3 = 52.17%
+{
+  "Justification": "The question involves a mean calculation across models, qualifying as basic numerical reasoning, though lacking scientific interpretation.",
+  "Reasoning": "Yes",
+  "Interpretation": "No",
+  "Synthesis": "No",
+  "Insightful": "Yes"
+}
+
+Example 8:
+Question: Among all models with existing train data, which achieves the highest Dpr accuracy?
+Explanation: From filtered models, the highest Dpr is 84.8% (Bert_WikiCREM_all).
+{
+  "Justification": "Like Example 2, this question requires reasoning over a filtered subset of models before determining a maximum value, thus meeting the reasoning criterion.",
+  "Reasoning": "Yes",
+  "Interpretation": "No",
+  "Synthesis": "No",
+  "Insightful": "Yes"
+}
+
+---
+
+## Input
+
+### Table  
+Caption: {{Table_Caption}}  
+Headers: {{Table_Headers}}  
+Contents: {{Table_Contents}}  
+Description: {{Table_Description}}
+
+### QA Triples  
+{{QA_list}}
+
+---
+
+## Output Format
+Return the following JSON array structure:
+[
+  {
+    "Justification": "...",
+    "Reasoning": "Yes" / "No",
+    "Interpretation": "Yes" / "No",
+    "Synthesis": "Yes" / "No",
+    "Insightful": "Yes" / "No"
+  },
+  ...
+]

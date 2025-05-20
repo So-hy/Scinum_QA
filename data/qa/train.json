@@ -1,0 +1,69 @@
+{"dev_5": [
+    {
+      "Type": "Change Analysis",
+      "Question": "For LSTM-ER, what is the largest absolute change observed between any two of the paragraph-level Accuracy, C-F1(100%), and R-F1(100%) scores?",
+      "Explanation": {
+        "Step 1": "This analyzes changes within one row across at least three columns, fitting the ‘Change Analysis’ type.",
+        "Step 2": "LSTM-ER values: Accuracy=61.67, C-F1(100%)=70.83, R-F1(100%)=45.52. Changes: |70.83-61.67|=9.16, |70.83-45.52|=25.31, |61.67-45.52|=16.15. Largest change is 25.31."
+      },
+      "Answer": "25.31"
+    },
+    {
+      "Type": "Trend Comparison",
+      "Question": "Comparing STagBLCC and LSTM-ER, which parser shows a bigger increase from paragraph-level accuracy to paragraph-level C-F1(100%)?",
+      "Explanation": {
+        "Step 1": "This compares values from two rows across two columns, fitting the ‘Trend Comparison’ type.",
+        "Step 2": "STagBLCC: Acc.=59.34, C-F1(100%)=66.69, increase=7.35; LSTM-ER: Acc.=61.67, C-F1(100%)=70.83, increase=9.16. LSTM-ER has the bigger increase."
+      },
+      "Answer": "LSTM-ER"
+    }
+  ],
+  "dev_55": [
+    {
+      "Type": "Change Analysis",
+      "Question": "What is the largest absolute change in precision (P) values observed among the methods Patt, DSim, SLQS, TF, DF, DocSub, and HClust for the PT Ted Talks corpus, considering all possible comparisons between methods?",
+      "Explanation": {
+        "Step 1": "Identify the precision (P) values for the PT Ted Talks corpus across the methods Patt, DSim, SLQS, TF, DF, DocSub, and HClust.",
+        "Step 2": "PT Ted Talks P values: Patt=0.6308, DSim=0.4124, SLQS=0.4404, TF=0.4515, DF=0.4945, DocSub=0.8609, HClust=0.5295. Compute all pairwise absolute differences. The largest is between DocSub and DSim: |0.8609 - 0.4124| = 0.4485."
+      },
+      "Answer": "0.4485"
+    },
+    {
+      "Type": "Trend Comparison",
+      "Question": "Comparing precision (P) and recall (R) values for the PT Ted Talks and Europarl corpora, which corpus shows a larger increase from Patt to DocSub?",
+      "Explanation": {
+        "Step 1": "Compares values from two rows (P and R) across two corpora (PT Ted Talks and Europarl), fitting Trend Comparison.",
+        "Step 2": "PT Ted Talks P: Patt=0.6308, DocSub=0.8609, increase=0.2301; R: Patt=0.0003, DocSub=0.0017, increase=0.0014. PT Europarl P: Patt=0.6185, DocSub=0.7553, increase=0.1368; R: Patt=0.0012, DocSub=0.0016, increase=0.0004. PT Ted Talks has larger increases in both P and R."
+      },
+      "Answer": "PT Ted Talks"
+    }
+  ], "dev_62": [
+    {
+      "Type": "Ratio Calculation",
+      "Question": "By what percentage does Wmd-1 + BERT + PMeans improve over SMD + BERT + PMeans on the BAGEL Inf correlation?",
+      "Explanation": {
+        "Step 1": "This question calculates the relative percentage increase from SMD + BERT + PMeans to Wmd-1 + BERT + PMeans in BAGEL Inf, fitting Ratio Calculation.",
+        "Step 2": "BAGEL Inf: SMD + BERT + PMeans = 0.290, Wmd-1 + BERT + PMeans = 0.298. Increase = 0.008. Relative increase = (0.008 / 0.290) × 100 ≈ 2.76%."
+      },
+      "Answer": "~2.76%"
+    },
+    {
+      "Type": "Change Analysis",
+      "Question": "What is the largest absolute change in BAGEL Nat correlations observed among the Baselines metrics BLEU-1, BLEU-2, METEOR, and BERTScore-F1, considering all possible pairs?",
+      "Explanation": {
+        "Step 1": "This question analyzes changes across four values in one row group, fitting Change Analysis.",
+        "Step 2": "BAGEL Nat values: BLEU-1=0.141, BLEU-2=0.152, METEOR=0.127, BERTScore-F1=0.210. Differences: |0.141-0.152|=0.011, |0.152-0.127|=0.025, |0.127-0.210|=0.083. Largest change is 0.083."
+      },
+      "Answer": "0.083"
+    },
+    {
+      "Type": "Trend Comparison",
+      "Question": "Comparing Sent-Mover and Word-Mover metrics, which group has a higher average SFHOTEL Inf correlation across all their listed models?",
+      "Explanation": {
+        "Step 1": "This compares averages across two groups (Sent-Mover and Word-Mover) over SFHOTEL Inf column, fitting Trend Comparison.",
+        "Step 2": "Sent-Mover SFHOTEL Inf: 0.022, 0.130, 0.192, 0.205; average = (0.022+0.130+0.192+0.205)/4=0.13725. Word-Mover SFHOTEL Inf: 0.074, 0.147, 0.203, 0.207, 0.204; average = (0.074+0.147+0.203+0.207+0.204)/5=0.167. Word-Mover average is higher."
+      },
+      "Answer": "Word-Mover"
+    }
+  ]
+}

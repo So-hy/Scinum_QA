@@ -1,0 +1,300 @@
+You will receive a table, and a list of (question, explanation, answer) triples.
+Perform three tasks **in order** and output the results in the exact format shown.
+
+--------------------------------------------------------------------
+## Task 1 — Question Relevancy  (rel)
+- **relevant**   : The question can be answered with the given table.
+- **irrelevant** : The table does not contain the information to answer.
+- **unsure**     : Ambiguous; cannot decide from the table.
+
+### Output →  
+rel: relevant / irrelevant / unsure
+
+--------------------------------------------------------------------
+## Task 2 — Question Type Classification  (Type)  
+*Only perform Task 2 if `rel = relevant`; otherwise set `Type: N/A`.*
+
+Choose one subtype below.  Follow the **boundary rules**:
+
+| Type | Core Idea | Boundary Rules (clarified) |
+|----------|-----------|----------------------------|
+| Specific Cell Comparison | Compare explicit cells | e.g. “Row 1 Col A vs Row 3 Col A” |
+| Specific Condition Comparison | Compare rows/cols filtered by a condition | e.g. “values > 0.5” |
+| Difference Calculation | **Exactly two** values → absolute gap | If > 2 values → **not** this type |
+| Ratio Calculation | **Exactly two** values → percent/ratio | More than two values → Change/Trend |
+| Change Analysis | 3 + values **within the same row _or_ same column** | Cross‑row+col → Trend |
+| Trend Comparison | 4 + values spanning **≥ 2 rows & ≥ 2 columns**, or comparing multiple computed gaps | |
+| Average/Sum Calculation | Compute mean or sum of 3 + values | |
+| Maximum/Minimum Identification | Identify highest/lowest among 3 + values | If only 2 values, use Specific Cell Comparison |
+
+**Decision Criterion:**  
+Base your sub-type classification **on the Explanation**, not just the Question.  
+Specifically, analyze:
+- The **number of raw data points** explicitly compared or aggregated (e.g., 2 vs 3+ vs 4+),
+- The **structure of the reasoning** (e.g., single row/column vs multiple rows and columns),
+- Whether the reasoning involves **filtering**, **trend comparison**, **aggregation**, etc.
+
+**If none of the above sub-types clearly apply, set `Type: N/A`.**
+
+### Output →  
+Type: {one of the eight sub‑types above | N/A}
+
+--------------------------------------------------------------------
+## Task 3 — Answer Correctness  (cor)  
+*Skip if `rel = irrelevant`; use `cor: N/A`.*
+
+- **correct**   : Answer matches the table regardless of explanation quality.  
+- **incorrect** : Mismatch with the table **or** there are multiple correct answers but only one is given.  
+- **unsure**    : Data missing/ambiguous.
+
+### Output →  
+cor: correct / incorrect / unsure / N/A
+
+--------------------------------------------------------------------
+
+## Few‑shot Examples  (all use the same Table 2)
+
+### Table 2
+
+Table Caption : "Table 2: Performance of dependency parsers, STagBLCC, LSTM-ER and ILP (from top to bottom). The ILP model operates on both levels. Best scores in each column in bold (signific. at p<0.01; Two-sided Wilcoxon signed rank test, pairing F1 scores for documents). We also report token level accuracy."
+Table Headers :  [
+            "[EMPTY]",
+            "Paragraph level Acc.",
+            "Paragraph level C-F1",
+            "Paragraph level C-F1",
+            "Paragraph level R-F1",
+            "Paragraph level R-F1",
+            "Paragraph level F1",
+            "Paragraph level F1",
+            "Essay level Acc.",
+            "Essay level C-F1",
+            "Essay level C-F1",
+            "Essay level R-F1",
+            "Essay level R-F1",
+            "Essay level F1",
+            "Essay level F1"
+        ]
+Table Contents :  [
+            [
+                "[EMPTY]",
+                "[EMPTY]",
+                "100%",
+                "50%",
+                "100%",
+                "50%",
+                "100%",
+                "50%",
+                "[EMPTY]",
+                "100%",
+                "50%",
+                "100%",
+                "50%",
+                "100%",
+                "50%"
+            ],
+            [
+                "MST-Parser",
+                "31.23",
+                "0",
+                "6.90",
+                "0",
+                "1.29",
+                "0",
+                "2.17",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]"
+            ],
+            [
+                "Mate",
+                "22.71",
+                "2.72",
+                "12.34",
+                "2.03",
+                "4.59",
+                "2.32",
+                "6.69",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]"
+            ],
+            [
+                "Kiperwasser",
+                "52.80",
+                "26.65",
+                "61.57",
+                "15.57",
+                "34.25",
+                "19.65",
+                "44.01",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]"
+            ],
+            [
+                "LSTM-Parser",
+                "55.68",
+                "58.86",
+                "68.20",
+                "35.63",
+                "40.87",
+                "44.38",
+                "51.11",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]"
+            ],
+            [
+                "STagBLCC",
+                "59.34",
+                "66.69",
+                "74.08",
+                "39.83",
+                "44.02",
+                "49.87",
+                "55.22",
+                "<bold>60.46</bold>",
+                "63.23",
+                "69.49",
+                "<bold>34.82</bold>",
+                "<bold>39.68</bold>",
+                "<bold>44.90</bold>",
+                "<bold>50.51</bold>"
+            ],
+            [
+                "LSTM-ER",
+                "<bold>61.67</bold>",
+                "<bold>70.83</bold>",
+                "<bold>77.19</bold>",
+                "<bold>45.52</bold>",
+                "<bold>50.05</bold>",
+                "<bold>55.42</bold>",
+                "<bold>60.72</bold>",
+                "54.17",
+                "<bold>66.21</bold>",
+                "<bold>73.02</bold>",
+                "29.56",
+                "32.72",
+                "40.87",
+                "45.19"
+            ],
+            [
+                "ILP",
+                "60.32",
+                "62.61",
+                "73.35",
+                "34.74",
+                "44.29",
+                "44.68",
+                "55.23",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]",
+                "[EMPTY]"
+            ]
+        ]
+
+### Example A – Irrelevant Question
+
+**Question**  
+What GPU memory is required to train *LSTM‑Parser*?
+
+**Explanation**  
+n/a
+
+**Answer**  
+16 GB
+
+**Expected Output**
+```
+rel: irrelevant  
+Type: N/A  
+cor: N/A
+```
+
+---
+
+### Example B – Incorrect Answer (Maximum/Minimum Identification)
+
+**Question**  
+Among *MST‑Parser*, *Mate*, and *Kiperwasser*, which parser achieves the highest paragraph-level accuracy?
+
+**Explanation**  
+31.23 (MST‑Parser) vs 22.71 (Mate) vs 52.80 (Kiperwasser) → Kiperwasser is highest.
+
+**Answer**  
+MST‑Parser
+
+**Expected Output**
+```
+rel: relevant  
+Type: Maximum/Minimum Identification  
+cor: incorrect
+```
+
+---
+
+### Example C – Unsure (data missing) (Average/Sum Calculation)
+
+**Question**  
+What is the average *Essay level F1 (100 %)* across all models?
+
+**Explanation**  
+Only *STagBLCC* (44.90) and *LSTM‑ER* (40.87) have values; others are missing, so true average is indeterminable.
+
+**Answer**  
+42.89
+
+**Expected Output**
+```
+rel: relevant  
+Type: Average/Sum Calculation  
+cor: unsure
+```
+
+--------------------------------------------------------------------
+## Input
+### Table  
+Caption: {{Table_Caption}}  
+Headers: {{Table_Headers}}  
+Contents: {{Table_Contents}}  
+
+### QA Triples  
+{{QA_list}}
+
+## Final Output  (as a list of dictionaries, in input order)
+
+Return one dictionary per QA triple, each containing the following keys:
+- 'rel': relevant / irrelevant / unsure
+- 'Type': one of the eight sub-types above, or "N/A"
+- 'cor': correct / incorrect / unsure / N/A
+
+Format:
+```json
+[
+  {
+    "rel": "relevant",
+    "Type": "Average/Sum Calculation",
+    "cor": "unsure"
+  },
+  ...
+]
